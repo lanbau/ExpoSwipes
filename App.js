@@ -23,8 +23,6 @@ export default class App extends React.Component {
 
     // IF X increases, rotate towards 10 degrees
     // IF X decreases, rotate towards -10 degrees
-
-
     this.rotate = this.position.x.interpolate({
       inputRange: [ 
         -ScreenWidth/2, 
@@ -45,6 +43,7 @@ export default class App extends React.Component {
         {
           rotate: this.rotate
         },
+        // Read da link above.
         ...this.position.getTranslateTransform()
       ]
     }
@@ -118,19 +117,24 @@ export default class App extends React.Component {
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       
       onPanResponderMove: (evt, gestureState) => {
+        // To Track Finger Movement On Press?
         this.position.setValue({x: gestureState.dx, y: gestureState.dy})
       },
       onPanResponderRelease: (evt, gestureState) => {
+
+        // Restore Card's Position Based on dx - DAMN MATHS
         if (gestureState.dx > 120) {
           Animated.spring(this.position, {
             toValue: { x: ScreenWidth + 100, y: gestureState.dy }
           })
           .start(() => {
+            // RESTORE POSITION, CURRENTINDEX
             this.setState({currentIndex: this.state.currentIndex + 1}, () => {
               this.position.setValue({ x: 0, y: 0})
             })
           })
         }
+        // SAME AS ABOVE
         else if (gestureState.dx < -120) {
           Animated.spring(this.position, {
             toValue: { x: -ScreenWidth - 100, y: gestureState.dy }
@@ -154,20 +158,25 @@ export default class App extends React.Component {
   renderCards = () => {
     return Cards.map( (item, index) => {
 
+      // No Cards Left
       if (index < this.state.currentIndex ) {
         return null
       }
+      // For Current Card
       else if (index === this.state.currentIndex) {
         return (
+
           <Animated.View
 
             {...this.PanResponder.panHandlers}
+
             key={item.id}
 
             style={
             [
               this.rotateAndTranslate,
               { 
+                // why -120? Padding for the card?
                 height: ScreenHeight - 120, 
                 width: ScreenWidth,
                 padding: 10,
@@ -175,6 +184,7 @@ export default class App extends React.Component {
               }
             ]}
           >
+            {/* LIKE BUTTON - FADE IN and Out Based On  */}
             <Animated.View 
               style={{
                 opacity: this.likeOpacity, 
@@ -186,6 +196,7 @@ export default class App extends React.Component {
               }}>
               <Text style={{color:'white', fontSize: 40}}>LIKE</Text>
             </Animated.View>
+
             <Animated.View 
               style={{ 
                 opacity: this.dislikeOpacity, 
@@ -197,6 +208,7 @@ export default class App extends React.Component {
               }}>
               <Text style={{color:'red', fontSize: 40}}>NOPE</Text>
             </Animated.View>
+
             <Image
               style={{ flex: 1, borderRadius: 20 }}
               source={{ uri: item.uri }}
@@ -205,6 +217,7 @@ export default class App extends React.Component {
           </Animated.View>
         )
       }
+      // For Behind Card
       else {
         return (
           <Animated.View
@@ -230,14 +243,11 @@ export default class App extends React.Component {
           </Animated.View>
         )
       }
-
-
-
-
-      
-    }).reverse()
+    })
+    .reverse()
+    // Reverse the index
   }
-
+  // Nothing Much
   render() {
     return (
       <View style={{ flex: 1 }}>
