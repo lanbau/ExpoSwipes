@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 19822,
-  "expoServerNgrokUrl": "https://e3-z54.lanbau.exposwipes.exp.direct",
-  "packagerNgrokUrl": "https://packager.e3-z54.lanbau.exposwipes.exp.direct",
-  "ngrokPid": 19842,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
